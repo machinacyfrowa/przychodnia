@@ -11,7 +11,7 @@
                 </div>
                 <div class="mb-3">
                 <label for="password" class="form-label">Nowe hasło</label>
-                <input type="text" name="password" class="form-control" id="password" placeholder="" required>   
+                <input type="password" name="password" class="form-control" id="password" placeholder="" required>   
                 </div>
                 <div class="mb-3">
                     <label for="firstName" class="form-label">Imię</label>

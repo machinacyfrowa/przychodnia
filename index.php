@@ -15,7 +15,23 @@ if(isset($_REQUEST['action'])) {
             $smarty->display('login.tpl');
         break;
         case 'processLogin':
-            //przetwarzanie logowania
+            $query = $db->prepare("SELECT * FROM patient WHERE pesel = ? LIMIT 1");
+            $query->bind_param("s", $_REQUEST['pesel']);
+            $query->execute();
+            $result = $query->get_result();
+            if($result->num_rows == 0) {
+                $smarty->assign('error', "Błędny login lub hasło");
+                $smarty->display('login.tpl');
+                break;
+            }
+            $row = $result->fetch_assoc();
+            if(password_verify($_REQUEST['password'], $row['password'])) {
+                $smarty->display('index.tpl');
+            } else {
+                //hasło niepoprawne
+                $smarty->assign('error', "Błędny login lub hasło");
+                $smarty->display('login.tpl');
+            }
         break;
         case 'register':
             $smarty->display('register.tpl');
