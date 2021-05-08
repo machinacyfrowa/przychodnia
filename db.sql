@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Maj 2021, 12:35
+-- Czas generowania: 08 Maj 2021, 13:29
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 7.4.15
 
@@ -22,6 +22,25 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `przychodnia` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `przychodnia`;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `login` varchar(64) NOT NULL,
+  `password` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `admin`
+--
+
+INSERT INTO `admin` (`id`, `login`, `password`) VALUES
+(1, 'admin', '$argon2i$v=19$m=65536,t=4,p=1$R2hZaTkwcXNLRGQ2VzNxbw$jizkh7zuX4vybyF3UFklwcieEt6KcXW63HVLiBBHE2A');
 
 -- --------------------------------------------------------
 
@@ -113,6 +132,12 @@ INSERT INTO `room` (`id`, `roomNumber`) VALUES
 --
 
 --
+-- Indeksy dla tabeli `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeksy dla tabeli `appointment`
 --
 ALTER TABLE `appointment`
@@ -143,6 +168,12 @@ ALTER TABLE `room`
 --
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
+
+--
+-- AUTO_INCREMENT dla tabeli `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `appointment`
