@@ -65,6 +65,14 @@ if(isset($_REQUEST['action'])) {
             }
         break;
         case 'appointments':
+            $query = $db->prepare("SELECT * FROM doctor");
+            $query->execute();
+            $result = $query->get_result();
+            $doctors = array();
+            while($row = $result->fetch_assoc()) {
+                array_push($doctors, $row);
+            }
+            $smarty->assign('doctors', $doctors);
             $smarty->display('appointments.tpl');
         break;
         default:
