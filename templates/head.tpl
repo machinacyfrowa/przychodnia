@@ -30,12 +30,23 @@
                 <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href="index.php?action=login">Zaloguj się</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="index.php?action=register">Zarejestruj się</a>
-                </li>
+                {if isset($firstName)}
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Witaj {$firstName}
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=logout">Wyloguj</a>
+                    </li>
+                {else}
+                    <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=login">Zaloguj się</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=register">Zarejestruj się</a>
+                    </li> 
+                {/if}
             </ul>
             </div>
         </div>

@@ -1,5 +1,6 @@
 <?php
 require_once('./smarty/Smarty.class.php');
+session_start();
 $smarty = new Smarty();
 $db = new mysqli('localhost', 'root', '', 'przychodnia');
 
@@ -7,6 +8,11 @@ $smarty->setTemplateDir('./templates');
 $smarty->setCompileDir('./templates_c');
 $smarty->setCacheDir('./cache');
 $smarty->setConfigDir('./configs');
+
+if(isset($_SESSION['userID'])) {
+    //użytkownik jest zalogowany
+    $smarty->assign('firstName', $_SESSION['firstName']);
+}
 
 if(isset($_REQUEST['action'])) {
     //zostało przekazane polecienie do apliakcji
@@ -26,12 +32,20 @@ if(isset($_REQUEST['action'])) {
             }
             $row = $result->fetch_assoc();
             if(password_verify($_REQUEST['password'], $row['password'])) {
+                $_SESSION['userID'] = $row['id'];
+                $_SESSION['firstName'] = $row['firstName'];
+                $_SESSION['lastName'] = $row['lastName'];
+                $smarty->assign('firstName', $_SESSION['firstName']);
                 $smarty->display('index.tpl');
             } else {
                 //hasło niepoprawne
                 $smarty->assign('error', "Błędny login lub hasło");
                 $smarty->display('login.tpl');
             }
+        break;
+        case 'logout':
+            session_destroy();
+            header('Location: index.php');
         break;
         case 'register':
             $smarty->display('register.tpl');
