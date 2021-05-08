@@ -75,6 +75,14 @@ if(isset($_REQUEST['action'])) {
             $smarty->assign('doctors', $doctors);
             $smarty->display('appointments.tpl');
         break;
+        case 'processAppointment':
+            $query = $db->prepare("INSERT INTO appointment (id, date, patient, doctor)
+                                        VALUES (NULL, ?, ?, ?)");
+            $timestamp = strtotime($_REQUEST['date']);
+            $query->bind_param("iii", $timestamp, $_SESSION['userID'], $_REQUEST['doctor']);
+            $query->execute();
+            header('Location: index.php?action=appointments');
+        break;
         default:
             $smarty->display('index.tpl');
         break;

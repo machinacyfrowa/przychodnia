@@ -7,7 +7,7 @@
     <form action="index.php" method="post">
         <input type="hidden" name="action" value="processAppointment">
         <div class="mb-3">
-            <select class="form-select" aria-label="Default select example">
+            <select class="form-select" aria-label="Default select example" name="doctor">
                 <option selected>Wybierz lekarza:</option>
                 {foreach from=$doctors item=doctor}
                     <option value="{$doctor.id}">{$doctor.speciality} {$doctor.firstName} {$doctor.lastName}</option>
@@ -17,6 +17,9 @@
         <div class="mb-3">
             <label for="date" class="form-label">Data wizyty</label>
             <input type="date" name="date" class="form-control" id="date">   
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary w-100">Umów wizytę</button>
         </div>
     </form>
 </div>
