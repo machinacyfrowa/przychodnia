@@ -1,6 +1,7 @@
 <?php
 require_once('./smarty/Smarty.class.php');
 $smarty = new Smarty();
+$db = new mysqli('localhost', 'root', '', 'przychodnia');
 
 $smarty->setTemplateDir('./templates');
 $smarty->setCompileDir('./templates_c');
@@ -20,7 +21,18 @@ if(isset($_REQUEST['action'])) {
             $smarty->display('register.tpl');
         break;
         case 'processRegister':
-            //przetwarzanie rejestracji
+            $query = $db->prepare("INSERT INTO patient (id, pesel, password, firstName, lastName) 
+                                    VALUES (NULL, ?, ?, ?, ?)");
+            $passwordHash = password_hash($_REQUEST['password'], PASSWORD_ARGON2I);
+            $query->bind_param("ssss", $_REQUEST['pesel'], $passwordHash, $_REQUEST['firstName'], $_REQUEST['lastName']);
+            $query->execute();
+            if($query->errno == 1062) {
+                //próba rejestracji an ten sam pesel
+                $smarty->assign('error', "Istnieje już konto dla podanego numeru PESEL");
+                $smarty->display('register.tpl');
+            } else {
+                $smarty->display('login.tpl');
+            }
         break;
         default:
             $smarty->display('index.tpl');
