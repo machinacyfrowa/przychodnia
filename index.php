@@ -73,13 +73,36 @@ if(isset($_REQUEST['action'])) {
                 array_push($doctors, $row);
             }
             $smarty->assign('doctors', $doctors);
+            $query = $db->prepare("SELECT *, appointment.id AS appointment_id FROM appointment 
+                                    LEFT JOIN doctor ON doctor.id = appointment.doctor WHERE patient = ? ");
+            $query->bind_param('i', $_SESSION['userID']);
+            $query->execute();
+            $appointments = array();
+            $result = $query->get_result();
+            while($row = $result->fetch_assoc()) {
+                array_push($appointments, $row);
+            }
+            $smarty->assign('appointments', $appointments);
             $smarty->display('appointments.tpl');
         break;
-        case 'processAppointment':
-            $query = $db->prepare("INSERT INTO appointment (id, date, patient, doctor)
-                                        VALUES (NULL, FROM_UNIXTIME(?), ?, ?)");
-            $timestamp = strtotime($_REQUEST['date']);
-            $query->bind_param("iii", $timestamp, $_SESSION['userID'], $_REQUEST['doctor']);
+        case 'findAppointment':
+            $query = $db->prepare("SELECT *, appointment.id AS appointment_id FROM appointment 
+                                    LEFT JOIN doctor ON doctor.id = appointment.doctor 
+                                    LEFT JOIN room ON room.id = appointment.room 
+                                    WHERE doctor = ? AND patient = 0 AND date > NOW()");
+            $query->bind_param('i', $_REQUEST['doctor']);
+            $query->execute();
+            $result = $query->get_result();
+            $appointments = array();
+            while($row = $result->fetch_assoc()) {
+                array_push($appointments, $row);
+            }
+            $smarty->assign('appointments', $appointments);
+            $smarty->display('chooseAppointment.tpl');
+        break;
+        case 'bookAppointment':
+            $query = $db->prepare("UPDATE appointment SET patient = ? WHERE id = ?");
+            $query->bind_param("ii", $_SESSION['userID'], $_REQUEST['appointment_id']);
             $query->execute();
             header('Location: index.php?action=appointments');
         break;
