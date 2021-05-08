@@ -64,6 +64,9 @@ if(isset($_REQUEST['action'])) {
                 $smarty->display('login.tpl');
             }
         break;
+        case 'appointments':
+            $smarty->display('appointments.tpl');
+        break;
         default:
             $smarty->display('index.tpl');
         break;
