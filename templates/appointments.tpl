@@ -31,7 +31,7 @@
         <tr>
             <td>{$appointment.date}</td>
             <td>{$appointment.firstName} {$appointment.lastName}</td>
-            <td>23</td>
+            <td>{$appointment.roomNumber}</td>
         </tr>
         {/foreach}
     </table>

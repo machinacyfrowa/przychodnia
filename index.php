@@ -74,7 +74,9 @@ if(isset($_REQUEST['action'])) {
             }
             $smarty->assign('doctors', $doctors);
             $query = $db->prepare("SELECT *, appointment.id AS appointment_id FROM appointment 
-                                    LEFT JOIN doctor ON doctor.id = appointment.doctor WHERE patient = ? ");
+                                    LEFT JOIN doctor ON doctor.id = appointment.doctor 
+                                    LEFT JOIN room ON room.id = appointment.room 
+                                    WHERE patient = ? ");
             $query->bind_param('i', $_SESSION['userID']);
             $query->execute();
             $appointments = array();
