@@ -26,12 +26,18 @@
             <th>Termin wizyty</th>
             <th>Nazwisko lekarza</th>
             <th>Numer gabinetu</th>
+            <th>Zrezygnuj</th>
         </tr>
         {foreach from=$appointments item=appointment}
         <tr>
             <td>{$appointment.date}</td>
             <td>{$appointment.firstName} {$appointment.lastName}</td>
             <td>{$appointment.roomNumber}</td>
+            <td>
+                <a href="index.php?action=clearAppointment&appointment_id={$appointment.appointment_id}">
+                <button class="btn btn-primary">Zrezygnuj z wizyty</button>
+            </a>
+            </td>
         </tr>
         {/foreach}
     </table>

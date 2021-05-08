@@ -108,6 +108,12 @@ if(isset($_REQUEST['action'])) {
             $query->execute();
             header('Location: index.php?action=appointments');
         break;
+        case 'clearAppointment':
+            $query = $db->prepare("UPDATE appointment SET patient = 0 WHERE id = ?");
+            $query->bind_param("i", $_REQUEST['appointment_id']);
+            $query->execute();
+            header('Location: index.php?action=appointments');
+        break;
         default:
             $smarty->display('index.tpl');
         break;

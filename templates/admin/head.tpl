@@ -26,6 +26,15 @@
                     <a class="nav-link" href="index.php?action=doctorList">Lekarze</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=roomList">Gabinety</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=patientList">Pacjenci</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?action=generateAppointments">Generuj terminy</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#">Witaj {$login}</a>
                 </li>
                 <li class="nav-item">

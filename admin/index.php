@@ -36,6 +36,10 @@ if(isset($_REQUEST['action'])) {
                 $smarty->display('login.tpl');
             }
         break;
+        case 'logout':
+            session_destroy();
+            header('Location: index.php');
+        break;
         case 'doctorList':
             $query = $db->prepare("SELECT * FROM doctor");
             $query->execute();
@@ -46,6 +50,66 @@ if(isset($_REQUEST['action'])) {
             }
             $smarty->assign('doctors', $doctors);
             $smarty->display('doctors.tpl');
+        break;
+        case 'patientList':
+            $query = $db->prepare("SELECT * FROM patient WHERE ID > 0");
+            $query->execute();
+            $result = $query->get_result();
+            $patients = array();
+            while($row = $result->fetch_assoc()) {
+                array_push($patients, $row);
+            }
+            $smarty->assign('patients', $patients);
+            $smarty->display('patients.tpl');
+        break;
+        case 'roomList':
+            $query = $db->prepare("SELECT * FROM room");
+            $query->execute();
+            $result = $query->get_result();
+            $rooms = array();
+            while($row = $result->fetch_assoc()) {
+                array_push($rooms, $row);
+            }
+            $smarty->assign('rooms', $rooms);
+            $smarty->display('rooms.tpl');
+        break;
+        case 'generateAppointments':
+            $query = $db->prepare("SELECT * FROM doctor");
+            $query->execute();
+            $result = $query->get_result();
+            $doctors = array();
+            while($row = $result->fetch_assoc()) {
+                array_push($doctors, $row);
+            }
+            $smarty->assign('doctors', $doctors);
+            $query = $db->prepare("SELECT * FROM room");
+            $query->execute();
+            $result = $query->get_result();
+            $rooms = array();
+            while($row = $result->fetch_assoc()) {
+                array_push($rooms, $row);
+            }
+            $smarty->assign('rooms', $rooms);
+            $smarty->display('generateAppointment.tpl');
+        break;
+        case 'addAppointments':
+            $shiftStart = strtotime($_REQUEST['shiftStart']);
+            $shiftEnd = strtotime($_REQUEST['shiftEnd']);
+            $invervalSeconds = $_REQUEST['interval'] * 60;
+            $currentTime = $shiftStart;
+            $appointments = array();
+            while($currentTime < $shiftEnd) {
+                array_push($appointments, $currentTime);
+                $currentTime += $invervalSeconds;
+            }
+            //var_dump($appointmets);
+            foreach ($appointments as $appointment) {
+                $query = $db->prepare("INSERT INTO appointment (id, date, patient, doctor, room)
+                                                VALUES (NULL, FROM_UNIXTIME(?), 0, ?, ?)"); //pacjent "0" - pusty termin
+                $query->bind_param('iii', $appointment, $_REQUEST['doctor'], $_REQUEST['room']);
+                $query->execute();
+            }
+            $smarty->display('index.tpl');
         break;
         default:
         $smarty->display('index.tpl');
