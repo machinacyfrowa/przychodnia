@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Maj 2021, 13:29
+-- Czas generowania: 08 Maj 2021, 13:40
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 7.4.15
 
@@ -29,11 +29,12 @@ USE `przychodnia`;
 -- Struktura tabeli dla tabeli `admin`
 --
 
-CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(64) NOT NULL,
-  `password` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `password` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `admin`
@@ -48,13 +49,17 @@ INSERT INTO `admin` (`id`, `login`, `password`) VALUES
 -- Struktura tabeli dla tabeli `appointment`
 --
 
-CREATE TABLE `appointment` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `appointment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `patient` int(11) NOT NULL,
   `doctor` int(11) NOT NULL,
-  `room` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `room` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `patient` (`patient`),
+  KEY `doctor` (`doctor`),
+  KEY `room` (`room`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `appointment`
@@ -71,12 +76,13 @@ INSERT INTO `appointment` (`id`, `date`, `patient`, `doctor`, `room`) VALUES
 -- Struktura tabeli dla tabeli `doctor`
 --
 
-CREATE TABLE `doctor` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `doctor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstName` varchar(64) NOT NULL,
   `lastName` varchar(128) NOT NULL,
-  `speciality` varchar(64) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `speciality` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `doctor`
@@ -92,13 +98,15 @@ INSERT INTO `doctor` (`id`, `firstName`, `lastName`, `speciality`) VALUES
 -- Struktura tabeli dla tabeli `patient`
 --
 
-CREATE TABLE `patient` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `patient` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pesel` varchar(11) NOT NULL,
   `password` varchar(256) NOT NULL,
   `firstName` varchar(64) NOT NULL,
-  `lastName` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `lastName` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pesel` (`pesel`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `patient`
@@ -115,10 +123,11 @@ INSERT INTO `patient` (`id`, `pesel`, `password`, `firstName`, `lastName`) VALUE
 -- Struktura tabeli dla tabeli `room`
 --
 
-CREATE TABLE `room` (
-  `id` int(11) NOT NULL,
-  `roomNumber` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `room` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roomNumber` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Zrzut danych tabeli `room`
@@ -126,78 +135,6 @@ CREATE TABLE `room` (
 
 INSERT INTO `room` (`id`, `roomNumber`) VALUES
 (1, '23A');
-
---
--- Indeksy dla zrzutów tabel
---
-
---
--- Indeksy dla tabeli `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeksy dla tabeli `appointment`
---
-ALTER TABLE `appointment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `patient` (`patient`),
-  ADD KEY `doctor` (`doctor`),
-  ADD KEY `room` (`room`) USING BTREE;
-
---
--- Indeksy dla tabeli `doctor`
---
-ALTER TABLE `doctor`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeksy dla tabeli `patient`
---
-ALTER TABLE `patient`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `pesel` (`pesel`);
-
---
--- Indeksy dla tabeli `room`
---
-ALTER TABLE `room`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT dla zrzuconych tabel
---
-
---
--- AUTO_INCREMENT dla tabeli `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT dla tabeli `appointment`
---
-ALTER TABLE `appointment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT dla tabeli `doctor`
---
-ALTER TABLE `doctor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT dla tabeli `patient`
---
-ALTER TABLE `patient`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT dla tabeli `room`
---
-ALTER TABLE `room`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ograniczenia dla zrzutów tabel
