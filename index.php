@@ -77,7 +77,7 @@ if(isset($_REQUEST['action'])) {
         break;
         case 'processAppointment':
             $query = $db->prepare("INSERT INTO appointment (id, date, patient, doctor)
-                                        VALUES (NULL, ?, ?, ?)");
+                                        VALUES (NULL, FROM_UNIXTIME(?), ?, ?)");
             $timestamp = strtotime($_REQUEST['date']);
             $query->bind_param("iii", $timestamp, $_SESSION['userID'], $_REQUEST['doctor']);
             $query->execute();
