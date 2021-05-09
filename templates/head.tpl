@@ -19,12 +19,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.php">Strona główna</a>
+                <a class="nav-link active" aria-current="page" href="http://localhost/pam2021/przychodnia">Strona główna</a>
                 </li>
                 
                 {if isset($firstName)}
                     <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=appointments">Wizyty lekarskie</a>
+                    <a class="nav-link" href="http://localhost/pam2021/przychodnia/wizyty/">Wizyty lekarskie</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="#">
@@ -32,14 +32,14 @@
                     </a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=logout">Wyloguj</a>
+                    <a class="nav-link" href="http://localhost/pam2021/przychodnia/wyloguj/">Wyloguj</a>
                     </li>
                 {else}
                     <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=login">Zaloguj się</a>
+                    <a class="nav-link" href="http://localhost/pam2021/przychodnia/zaloguj/">Zaloguj się</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=register">Zarejestruj się</a>
+                    <a class="nav-link" href="http://localhost/pam2021/przychodnia/zarejestruj/">Zarejestruj się</a>
                     </li> 
                 {/if}
             </ul>

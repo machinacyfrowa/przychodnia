@@ -4,7 +4,7 @@
 </div>
 <div class="row">
     <h2>Zarejestruj się do lekarza:</h2>
-    <form action="index.php" method="post">
+    <form action="http://localhost/pam2021/przychodnia/znajdzWizyte" method="post">
         <input type="hidden" name="action" value="findAppointment">
         <div class="mb-3">
             <select class="form-select" aria-label="Default select example" name="doctor">
@@ -34,7 +34,7 @@
             <td>{$appointment.firstName} {$appointment.lastName}</td>
             <td>{$appointment.roomNumber}</td>
             <td>
-                <a href="index.php?action=clearAppointment&appointment_id={$appointment.appointment_id}">
+                <a href=" http://localhost/pam2021/przychodnia/odwolajWizyte/{$appointment.appointment_id}">
                 <button class="btn btn-primary">Zrezygnuj z wizyty</button>
             </a>
             </td>

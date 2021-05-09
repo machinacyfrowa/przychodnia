@@ -12,7 +12,7 @@
         <td>{$appointment.firstName} {$appointment.lastName}</td>
         <td>{$appointment.roomNumber}</td>
         <td>
-            <a href="index.php?action=bookAppointment&appointment_id={$appointment.appointment_id}">
+            <a href="http://localhost/pam2021/przychodnia/dodajWizyte/{$appointment.appointment_id}">
             <button class="btn btn-primary">Zarezerwuj termin</button>
         </a>
         </td>
