@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col col-lg-4 offset-lg-4 mt-5">
             <h1 class="text-center">Zaloguj się</h1>
-            <form action="http://localhost/pam2021/przychodnia/zaloguj/" method="post">
+            <form action="/zaloguj/" method="post">
                 <input type="hidden" name="action" value="processLogin">
                 <div class="mb-3">
                     <label for="pesel" class="form-label">Numer PESEL</label>

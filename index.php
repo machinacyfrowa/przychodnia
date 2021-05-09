@@ -117,7 +117,7 @@ Route::add('/dodajWizyte/([0-9]*)', function ($id) {
     $query = $db->prepare("UPDATE appointment SET patient = ? WHERE id = ?");
     $query->bind_param("ii", $_SESSION['userID'], $id);
     $query->execute();
-    header('Location: http://localhost/pam2021/przychodnia/wizyty');
+    header('Location: /wizyty');
 });
 
 Route::add('/odwolajWizyte/([0-9]*)', function ($id) {
@@ -125,33 +125,15 @@ Route::add('/odwolajWizyte/([0-9]*)', function ($id) {
     $query = $db->prepare("UPDATE appointment SET patient = 0 WHERE id = ?");
     $query->bind_param("i", $id);
     $query->execute();
-    header('Location: http://localhost/pam2021/przychodnia/wizyty');
+    header('Location: /wizyty');
 });
 
 
 Route::add('/wyloguj', function () {
 
     session_destroy();
-    header('Location: http://localhost/pam2021/przychodnia');
+    header('Location: /');
 });
 
-Route::run('/pam2021/przychodnia/');
+Route::run('/');
 exit;
-
-if (isset($_REQUEST['action'])) {
-    //zostało przekazane polecienie do apliakcji
-    switch ($_REQUEST['action']) {
-
-        case 'clearAppointment':
-            $query = $db->prepare("UPDATE appointment SET patient = 0 WHERE id = ?");
-            $query->bind_param("i", $_REQUEST['appointment_id']);
-            $query->execute();
-            header('Location: index.php?action=appointments');
-            break;
-        default:
-            $smarty->display('index.tpl');
-            break;
-    }
-} else {
-    $smarty->display('index.tpl');
-}
